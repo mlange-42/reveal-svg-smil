@@ -24,53 +24,57 @@ Control SVG/SMIL animations through the [*reveal.js*](https://revealjs.com/) sli
 
 ## Demo
 
-### <big>&#8595;</big>
+### <big>&darr;</big>
 
 ----
 
 ### Use the full potential of SMIL animations
 
-Press **&#8594;** to play animations
+Press **&rarr;** and **&larr;** to play animations
 
 <svg height="250" width="500">
   <rect x="5" y="5" width="490" height="240" stroke="var(--r-main-color)" stroke-width="3px" fill="var(--r-background-color)"/>
-  <circle cx="60" cy="40" r="20" fill="var(--r-link-color)">
-    <animate id="down_1" data-animation-step="1" begin="indefinite" fill="freeze"
-		attributeName="cy" to="220" dur="0.3s" />
-    <animate id="down_1_revert" data-animation-step="-1" begin="indefinite" fill="freeze"
-		attributeName="cy" to="40" dur="0.3s" />
-  </circle>
-  <circle cx="120" cy="40" r="20" fill="var(--r-link-color)">
-    <animate id="down_2" begin="down_1.end" fill="freeze"
-		attributeName="cy" to="220" dur="0.3s" />
-    <animate id="down_2_revert" begin="down_1_revert.end" fill="freeze"
-		attributeName="cy" to="40" dur="0.3s" />
-  </circle>
-  <circle cx="180" cy="40" r="20" fill="var(--r-link-color)">
-    <animate id="down_3" begin="down_2.end" fill="freeze"
-		attributeName="cy" to="220" dur="0.3s" />
-    <animate id="down_3_revert" begin="down_2_revert.end" fill="freeze"
-		attributeName="cy" to="40" dur="0.3s" />
-  </circle>
-  <circle cx="240" cy="40" r="20" fill="var(--r-link-color)">
-    <animate id="down_4" begin="down_3.end" fill="freeze"
-		attributeName="cy" to="220" dur="0.3s" />
-    <animate id="down_4_revert" begin="down_3_revert.end" fill="freeze"
-		attributeName="cy" to="40" dur="0.3s" />
-  </circle>
-  <circle cx="300" cy="40" r="20" fill="var(--r-link-color)">
-    <animate id="down_5" begin="down_4.end" fill="freeze"
-		attributeName="cy" to="220" dur="0.3s" />
-    <animate id="down_5_revert" begin="down_4_revert.end" fill="freeze"
-		attributeName="cy" to="40" dur="0.3s" />
-  </circle>
+  <rect x="220" y="95" width="60" height="60" rx="30" fill="var(--r-main-color)">
+    <!-- Change color -->
+    <animate data-animation-step="1" begin="indefinite" fill="freeze"
+      attributeName="fill" to="var(--r-link-color)" dur="0.5s" />
+    <animate data-animation-step="-1" begin="indefinite" fill="freeze"
+      attributeName="fill" to="var(--r-main-color)" dur="0.5s" />
+    <!-- Change to circle -->
+    <animate data-animation-step="2" begin="indefinite" fill="freeze"
+      attributeName="rx" to="0" dur="1s" />
+    <animate data-animation-step="-2" begin="indefinite" fill="freeze"
+      attributeName="rx" to="30" dur="1s" />
+    <!-- Rotate -->
+    <animateTransform data-animation-step="3" begin="indefinite" fill="freeze"
+      attributeName="transform" type="rotate" from="0 250 125" to="360 250 125" dur="1s" />
+    <animateTransform data-animation-step="-3" begin="indefinite" fill="freeze"
+      attributeName="transform" type="rotate" from="360 250 125" to="0 250 125" dur="1s" />
+    <!-- Fall -->
+    <animate data-animation-step="4" begin="indefinite" fill="freeze"
+      attributeName="y" to="185" dur="0.3s" />
+    <animate data-animation-step="-4" begin="indefinite" fill="freeze"
+      attributeName="y" to="95" dur="0.3s" />
+    <!-- Move out -->
+    <animate id="anim_move_out" data-animation-step="5" begin="indefinite" fill="freeze"
+      attributeName="x" to="500" dur="1s" />
+    <animate id="anim_move_out_revert" data-animation-step="-5" begin="indefinite" fill="freeze"
+      attributeName="x" to="220" dur="1s" />
+  </rect>
+  <text x="-120" y="135" fill="var(--r-link-color)" font-family="var(--r-heading-font)" text-anchor="middle">
+    SMIL(E)!
+    <animate begin="anim_move_out.end" fill="freeze"
+      attributeName="x" to="250" dur="0.6s" />
+    <animate begin="anim_move_out_revert.begin" fill="freeze"
+      attributeName="x" to="-120" dur="0.6s" />
+  </text>
 </svg>
 
 ---
 
 ## Usage
 
-### <big>&#8595;</big>
+### <big>&darr;</big>
 
 ----
 
@@ -80,7 +84,7 @@ usage...
 
 ## Installation
 
-### <big>&#8595;</big>
+### <big>&darr;</big>
 
 ----
 
