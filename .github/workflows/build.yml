@@ -15,7 +15,7 @@ jobs:
           npm install --global reveal-md
       - name: Build slides
         run: |
-          reveal-md demo/slides.md --static public
+          reveal-md demo/slides.md --static public --static-dirs=demo/.nojekyll
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
         with:
