@@ -17,6 +17,8 @@
 * <animate data-animation-step="1" begin="indefinite" ... />
 * <animate data-animation-step="-1" begin="indefinite" ... />
 *
+* To make the state after animation persistent, add `fill="freeze"` to your animations:
+*
 * ## Manual fragments
 *
 * In your SVG, mark animations with classes, and set begin to "indefinite":
