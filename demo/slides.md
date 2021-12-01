@@ -256,6 +256,50 @@ Reverse animations
 
 ### <big>&darr;</big>
 
+----
+
+### Reverse animations
+
+Add reverse versions of animations that are played when stepping backwards
+
+----
+
+### Reverse auto mode
+
+Add animations with corresponding negative `data-fragment-index`
+
+```html [3,7]
+<circle cx="50" cy="50" r="10">
+  <animate
+        data-fragment-index="1"
+        begin="indefinite"
+        attributeName="r" to="40" dur="2s" fill="freeze" />
+  <animate
+        data-fragment-index="-1"
+        begin="indefinite"
+        attributeName="r" to="10" dur="2s" fill="freeze" />
+</circle>
+```
+
+----
+
+### Reverse manual mode
+
+Add animations with class suffix `-revert`
+
+```html [3,7]
+<circle cx="50" cy="50" r="10">
+  <animate
+        class="first-animation"
+        begin="indefinite"
+        attributeName="r" to="40" dur="2s" fill="freeze" />
+  <animate
+        class="first-animation-revert"
+        begin="indefinite"
+        attributeName="r" to="10" dur="2s" fill="freeze" />
+</circle>
+```
+
 ---
 
 ## Installation
@@ -264,4 +308,27 @@ Reverse animations
 
 ----
 
-installation...
+### Get the script
+
+* Download file [reveal-svg-smil.js](https://raw.githubusercontent.com/mlange-42/reveal-svg-smil/main/reveal-svg-smil.js)
+from the [GitHub repository](https://github.com/mlange-42/reveal-svg-smil)
+
+Or
+
+* Add [reveal-svg-smil](https://github.com/mlange-42/reveal-svg-smil) as sub-module to your project
+
+----
+
+### Include the script
+
+Load the script into your slideshow
+
+```html
+<script src="path/to/reveal-svg-smil.js"></script>
+```
+
+---
+
+## reveal-svg-smil
+
+Source code and documentation on [<i class="fa fa-github"></i> GitHub](https://github.com/mlange-42/reveal-svg-smil)
