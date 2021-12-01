@@ -68,6 +68,8 @@ Press **&darr;** and **&uarr;** to play animations
     <animate begin="anim_move_out_revert.begin" fill="freeze"
       attributeName="x" to="-120" dur="0.6s" />
   </text>
+
+Your browser does not support SVG.
 </svg>
 
 ---
@@ -224,7 +226,7 @@ Add a `class` to the animation
 
 Set `begin="indefinite"`
 
-```html [4]
+```html [4-5]
 <svg width="500" height="250" ...>
   <circle cx="50" cy="50" r="10">
     <animate
@@ -326,6 +328,53 @@ Load the script into your slideshow
 ```html
 <script src="path/to/reveal-svg-smil.js"></script>
 ```
+
+---
+
+## Tips
+
+### <big>&darr;</big>
+
+----
+
+### Non-SVG fragments
+
+Use manual mode when you have non-SVG fragments on the same slide
+
+--
+
+Auto mode does not always work there (yet)
+
+----
+
+### Persistent state
+
+Use `fill="freeze"` on an animation to make its state persistent after replay
+
+Try it:
+
+<svg width="500" height="250">
+  <circle cx="125" cy="125" r="10" fill="var(--r-main-color)">
+    <animate
+      data-fragment-index="1" 
+      begin="indefinite"
+      attributeName="r" to="100" dur="2s" />
+    <animate
+      data-fragment-index="-1" 
+      begin="indefinite"
+      attributeName="r" to="10" dur="2s" />
+  </circle>
+  <circle cx="375" cy="125" r="10" fill="var(--r-link-color)">
+    <animate
+      data-fragment-index="1" 
+      begin="indefinite" fill="freeze"
+      attributeName="r" to="100" dur="2s" />
+    <animate
+      data-fragment-index="-1" 
+      begin="indefinite" fill="freeze"
+      attributeName="r" to="10" dur="2s" />
+  </circle>
+</svg>
 
 ---
 
