@@ -4,18 +4,18 @@
 *
 * ## Automatic fragments
 *
-* In your SVG, number animations with "data-animation-step" and set begin to "indefinite":
+* In your SVG, number animations with "data-fragment-index" and set begin to "indefinite":
 *
-* <animate data-animation-step="1" begin="indefinite" ... />
-* <animate data-animation-step="2" begin="indefinite" ... />
+* <animate data-fragment-index="1" begin="indefinite" ... />
+* <animate data-fragment-index="2" begin="indefinite" ... />
 *
 * Fragments for controlling the animation will be inserted automatically.
 *
 * To properly play animations in reverse, a reverting/inverse animation can be
 * added for each "normal" animation, by using negative step values:
 *
-* <animate data-animation-step="1" begin="indefinite" ... />
-* <animate data-animation-step="-1" begin="indefinite" ... />
+* <animate data-fragment-index="1" begin="indefinite" ... />
+* <animate data-fragment-index="-1" begin="indefinite" ... />
 *
 * To make the state after animation persistent, add `fill="freeze"` to your animations:
 *
@@ -85,9 +85,9 @@ function loadSvg(svg) {
 }
 
 function initAutoAnimate(svg_entry) {
-    let animations = toArray(svg_entry.svg.querySelectorAll('[data-animation-step]'));
+    let animations = toArray(svg_entry.svg.querySelectorAll('[data-fragment-index]'));
     let anim_steps = animations.map(anim => {
-        return {node: anim, step: parseInt(anim.getAttribute('data-animation-step'))};
+        return {node: anim, step: parseInt(anim.getAttribute('data-fragment-index'))};
     });
     anim_steps.sort((a, b) => a.step - b.step);
 
