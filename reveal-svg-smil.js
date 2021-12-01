@@ -91,13 +91,18 @@ function initAutoAnimate(svg_entry) {
     });
     anim_steps.sort((a, b) => a.step - b.step);
 
+    let steps_done = new Set();
     for(const entry of anim_steps) {
         if(entry.step >= 0) {
             let cls = "auto-animate-" + entry.step;
             entry.node.classList.add(cls);
 
-            let fragment = createFragment(cls, entry.step);
-            svg_entry.container.parentElement.insertBefore(fragment, svg_entry.container);
+            if(!steps_done.has(entry.step)) {
+                let fragment = createFragment(cls, entry.step);
+                svg_entry.container.parentElement.insertBefore(fragment, svg_entry.container);
+
+                steps_done.add(entry.step);
+            }
         } else {
             entry.node.classList.add("auto-animate-" + Math.abs(entry.step) + config.revert_suffix);
         }
