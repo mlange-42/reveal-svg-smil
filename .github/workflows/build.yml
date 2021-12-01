@@ -1,0 +1,24 @@
+name: "build"
+on: push
+
+jobs:
+  build:
+    name: Build slides
+    runs-on: ubuntu-latest
+    container:
+      image: node:latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup
+        run: |
+          npm install --global reveal-md
+      - name: Build slides
+        run: |
+          reveal-md demo/slides.md --static public
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: public
+          path: public
+ 
