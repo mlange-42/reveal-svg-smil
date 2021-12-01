@@ -76,7 +76,7 @@ Your browser does not support SVG.
 
 ## Usage
 
-Automatic mode
+#### Automatic mode
 
 ### <big>&darr;</big>
 
@@ -170,7 +170,7 @@ SVG can be included directly, or as an external file using `<object>`
 
 ## Usage
 
-Manual mode
+#### Manual mode
 
 ### <big>&darr;</big>
 
@@ -254,7 +254,7 @@ Use dummy fragments with `data-svg-classes` to control animations
 
 ## Usage
 
-Reverse animations
+#### Reverse animations
 
 ### <big>&darr;</big>
 
@@ -351,28 +351,28 @@ Auto mode does not always work there (yet)
 
 Use `fill="freeze"` on an animation to make its state persistent after replay
 
-Try it:
+Try it with **&darr;** **&uarr;**
 
 <svg width="500" height="250">
-  <circle cx="125" cy="125" r="10" fill="var(--r-main-color)">
+  <circle cx="125" cy="125" r="20" fill="var(--r-main-color)">
     <animate
       data-fragment-index="1" 
       begin="indefinite"
-      attributeName="r" to="100" dur="2s" />
+      attributeName="r" to="100" dur="1.5s" />
     <animate
       data-fragment-index="-1" 
       begin="indefinite"
-      attributeName="r" to="10" dur="2s" />
+      attributeName="r" to="20" dur="1s" />
   </circle>
-  <circle cx="375" cy="125" r="10" fill="var(--r-link-color)">
+  <circle cx="375" cy="125" r="20" fill="var(--r-link-color)">
     <animate
       data-fragment-index="1" 
       begin="indefinite" fill="freeze"
-      attributeName="r" to="100" dur="2s" />
+      attributeName="r" to="100" dur="1.5s" />
     <animate
       data-fragment-index="-1" 
       begin="indefinite" fill="freeze"
-      attributeName="r" to="10" dur="2s" />
+      attributeName="r" to="20" dur="1s" />
   </circle>
 </svg>
 
