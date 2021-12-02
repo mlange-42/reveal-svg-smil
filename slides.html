@@ -345,10 +345,13 @@ SMIL provides all kinds of triggers and timing.
 We add slide navigation triggers on top, but you can still use all the power of SMIL
 <!-- .element: class="fragment" data-fragment-index="1" -->
 
-<svg class="fragment" data-fragment-index="1" width="500" height="250">
-  <circle cx="125" cy="125" r="20" fill="var(--r-link-color)">
+Click the circle to try it
+<!-- .element: class="fragment" data-fragment-index="2" -->
+
+<svg class="fragment" data-fragment-index="2" width="500" height="200">
+  <circle cx="125" cy="100" r="20" fill="var(--r-link-color)">
     <animate id="pulse_1"
-      attributeName="r" values="20; 40; 20" dur="1.5s" begin="0s; move_2.end" repeatCount="3" />
+      attributeName="r" values="20; 40; 20" dur="1.5s" begin="click; move_2.end" repeatCount="3" />
     <animate id="move_1"
       attributeName="cx" to="375" dur="1.5s" begin="pulse_1.end" fill="freeze" />
     <animate id="pulse_2"
