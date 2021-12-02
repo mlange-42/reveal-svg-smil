@@ -47,141 +47,147 @@
 *
 * Copyright (C) 2021 Martin Lange
 */
-var config = {
-    revert_suffix: "-revert"
-}
-var svg_tags = [];
+function RevealSvgSmil() {
+    var self=this;
 
-window.onload = onReady;
+    this.settings = {
+        revert_suffix: "-revert"
+    };
+    this.svg_tags = [];
 
-function onReady() {
-    let objs = toArray(document.getElementsByTagName("object"));
-    let svgs = toArray(document.getElementsByTagName("svg"));
-    svg_tags = objs
-                .map(obj => loadSvgFromObject(obj))
-                .filter(el => el != null)
-                .concat(svgs.map(obj => loadSvg(obj)));
+    Reveal.on( 'fragmentshown', event => {
+        this.fragmentChanged(event.fragment, true);
+    } );
 
-    for(const entry of svg_tags) {
-        initAutoAnimate(entry);
-    }
-}
+    Reveal.on( 'fragmenthidden', event => {
+        this.fragmentChanged(event.fragment, false);
+    } );
 
-function loadSvgFromObject(obj) {
-    let doc = obj.contentDocument;
-    if (doc != null) {
-        let svg = doc.getElementsByTagName("svg");
-        if(svg != null || svg.length > 0) {
-            let section = obj.closest("section");
-            return {svg: svg[0], section: section, container: obj};
+    this.onReady = function() {
+        let objs = toArray(document.getElementsByTagName("object"));
+        let svgs = toArray(document.getElementsByTagName("svg"));
+
+        self.svg_tags = objs
+                    .map(obj => self.loadSvgFromObject(obj))
+                    .filter(el => el != null)
+                    .concat(svgs.map(obj => self.loadSvg(obj)));
+
+        for(const entry of self.svg_tags) {
+            self.initAutoAnimate(entry);
         }
     }
-    return null;
-}
 
-function loadSvg(svg) {
-    let section = svg.closest("section");
-    return {svg: svg, section: section, container: svg};
-}
+    this.loadSvg = function(svg) {
+        let section = svg.closest("section");
+        return {svg: svg, section: section, container: svg};
+    }
 
-function initAutoAnimate(svg_entry) {
-    let animations = toArray(svg_entry.svg.querySelectorAll('[data-fragment-index]'));
-    let anim_steps = animations.map(anim => {
-        return {node: anim, step: parseInt(anim.getAttribute('data-fragment-index'))};
-    });
-    anim_steps.sort((a, b) => a.step - b.step);
-
-    let steps_done = new Set();
-    for(const entry of anim_steps) {
-        if(entry.step >= 0) {
-            let cls = "auto-animate-" + entry.step;
-            entry.node.classList.add(cls);
-
-            if(!steps_done.has(entry.step)) {
-                let fragment = createFragment(cls, entry.step);
-                svg_entry.container.parentElement.insertBefore(fragment, svg_entry.container);
-
-                steps_done.add(entry.step);
+    this.loadSvgFromObject = function(obj) {
+        let doc = obj.contentDocument;
+        if (doc != null) {
+            let svg = doc.getElementsByTagName("svg");
+            if(svg != null || svg.length > 0) {
+                let section = obj.closest("section");
+                return {svg: svg[0], section: section, container: obj};
             }
-        } else {
-            entry.node.classList.add("auto-animate-" + Math.abs(entry.step) + config.revert_suffix);
+        }
+        return null;
+    }
+
+    this.initAutoAnimate = function(svg_entry) {
+        let animations = toArray(svg_entry.svg.querySelectorAll('[data-fragment-index]'));
+        let anim_steps = animations.map(anim => {
+            return {node: anim, step: parseInt(anim.getAttribute('data-fragment-index'))};
+        });
+        anim_steps.sort((a, b) => a.step - b.step);
+
+        let steps_done = new Set();
+        for(const entry of anim_steps) {
+            if(entry.step >= 0) {
+                let cls = "auto-animate-" + entry.step;
+                entry.node.classList.add(cls);
+
+                if(!steps_done.has(entry.step)) {
+                    let fragment = self.createFragment(cls, entry.step);
+                    svg_entry.container.parentElement.insertBefore(fragment, svg_entry.container);
+
+                    steps_done.add(entry.step);
+                }
+            } else {
+                entry.node.classList.add("auto-animate-" + Math.abs(entry.step) + self.settings.revert_suffix);
+            }
         }
     }
-}
 
-function createFragment(cls, step) {
-    let fragment = document.createElement("span");
-    fragment.classList.add("fragment");
-    fragment.setAttribute("data-svg-classes", cls);
+    this.createFragment = function(cls, step) {
+        let fragment = document.createElement("span");
+        fragment.classList.add("fragment");
+        fragment.setAttribute("data-svg-classes", cls);
 
-    // TODO: enable after finding a solution for reveal's internal re-numbering
-    // fragment.setAttribute("data-fragment-index", step);
+        // TODO: enable after finding a solution for reveal's internal re-numbering
+        // fragment.setAttribute("data-fragment-index", step);
 
-    return fragment;
+        return fragment;
+    }
+
+    this.fragmentChanged = function(fragment, shown=true) {
+        let section = fragment.closest("section");
+        let index = fragment.getAttribute("data-fragment-index");
+
+        // Unfortunately, fragment events are not fired for every single fragment, but only for one per index!
+        // Thus, we need to collect all fragments with the current index.
+        let fragments_now = toArray(section.getElementsByClassName("fragment")).filter(frag => {
+            return index == frag.getAttribute("data-fragment-index")
+        } );
+
+        for(const frag of fragments_now) {
+            if(! frag.hasAttribute('data-svg-classes')) {
+                continue;
+            }
+            let classes = frag.getAttribute('data-svg-classes').split(/\s+/);
+
+            for(const entry of self.svg_tags) {
+                if(entry.section == section) {
+                    self.toggleAnimations(entry.svg, classes, shown);
+                }
+            }
+        }
+    }
+
+    this.toggleAnimations = function(svg, classes, begin=true) {
+        for(const cls of classes) {
+            let anims = svg.getElementsByClassName(cls);
+            let revert = svg.getElementsByClassName(cls + self.settings.revert_suffix);
+
+            for(const anim of anims) {
+                if(begin) {
+                    if(typeof anim.beginElement === 'function') {
+                        anim.beginElement();
+                    }
+                } else {
+                    if(typeof anim.endElement === 'function') {
+                        anim.endElement();
+                    }
+                }
+            }
+            for(const anim of revert) {
+                if(begin) {
+                    if(typeof anim.beginElement === 'function') {
+                        anim.endElement();
+                    }
+                } else {
+                    if(typeof anim.beginElement === 'function') {
+                        anim.beginElement();
+                    }
+                }
+            }
+        }
+    }
 }
 
 function toArray(nodeList) {
     return Array.prototype.slice.call(nodeList);
 }
 
-Reveal.on( 'fragmentshown', event => {
-    fragmentChanged(event.fragment, true);
-} );
-
-Reveal.on( 'fragmenthidden', event => {
-    fragmentChanged(event.fragment, false);
-} );
-
-function fragmentChanged(fragment, shown=true) {
-    let section = fragment.closest("section");
-    let index = fragment.getAttribute("data-fragment-index");
-
-    // Unfortunately, fragment events are not fired for every single fragment, but only for one per index!
-    // Thus, we need to collect all fragments with the current index.
-    let fragments_now = toArray(section.getElementsByClassName("fragment")).filter(frag => {
-        return index == frag.getAttribute("data-fragment-index")
-    } );
-
-    for(const frag of fragments_now) {
-        if(! frag.hasAttribute('data-svg-classes')) {
-            continue;
-        }
-        let classes = frag.getAttribute('data-svg-classes').split(/\s+/);
-
-        for(const entry of svg_tags) {
-            if(entry.section == section) {
-                toggleAnimations(entry.svg, classes, shown);
-            }
-        }
-    }
-}
-
-function toggleAnimations(svg, classes, begin=true) {
-    for(const cls of classes) {
-        let anims = svg.getElementsByClassName(cls);
-        let revert = svg.getElementsByClassName(cls + config.revert_suffix);
-
-        for(const anim of anims) {
-            if(begin) {
-                if(typeof anim.beginElement === 'function') {
-                    anim.beginElement();
-                }
-            } else {
-                if(typeof anim.endElement === 'function') {
-                    anim.endElement();
-                }
-            }
-        }
-        for(const anim of revert) {
-            if(begin) {
-                if(typeof anim.beginElement === 'function') {
-                    anim.endElement();
-                }
-            } else {
-                if(typeof anim.beginElement === 'function') {
-                    anim.beginElement();
-                }
-            }
-        }
-    }
-}
+revealSvgSmil = new RevealSvgSmil();
+window.onload = revealSvgSmil.onReady;
