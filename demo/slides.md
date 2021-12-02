@@ -68,13 +68,15 @@ Press **&darr;** and **&uarr;** to play animations
     <animate begin="anim_move_out_revert.begin" fill="freeze"
       attributeName="x" to="-120" dur="0.6s" />
   </text>
+
+Your browser does not support SVG.
 </svg>
 
 ---
 
 ## Usage
 
-Automatic mode
+#### Automatic mode
 
 ### <big>&darr;</big>
 
@@ -168,7 +170,7 @@ SVG can be included directly, or as an external file using `<object>`
 
 ## Usage
 
-Manual mode
+#### Manual mode
 
 ### <big>&darr;</big>
 
@@ -224,7 +226,7 @@ Add a `class` to the animation
 
 Set `begin="indefinite"`
 
-```html [4]
+```html [4-5]
 <svg width="500" height="250" ...>
   <circle cx="50" cy="50" r="10">
     <animate
@@ -252,7 +254,7 @@ Use dummy fragments with `data-svg-classes` to control animations
 
 ## Usage
 
-Reverse animations
+#### Reverse animations
 
 ### <big>&darr;</big>
 
@@ -326,6 +328,77 @@ Load the script into your slideshow
 ```html
 <script src="path/to/reveal-svg-smil.js"></script>
 ```
+
+---
+
+## Tips
+
+### <big>&darr;</big>
+
+----
+
+### Non-SVG fragments
+
+Use manual mode when you have non-SVG fragments on the same slide
+
+--
+
+Auto mode does not always work there (yet)
+
+----
+
+### Persistent state
+
+Use `fill="freeze"` on an animation to make its state persistent after replay
+
+Try it with **&darr;** **&uarr;**
+
+<svg width="500" height="250">
+  <circle cx="125" cy="125" r="20" fill="var(--r-main-color)">
+    <animate
+      data-fragment-index="1" 
+      begin="indefinite"
+      attributeName="r" to="100" dur="1.5s" />
+    <animate
+      data-fragment-index="-1" 
+      begin="indefinite"
+      attributeName="r" to="20" dur="1s" />
+  </circle>
+  <circle cx="375" cy="125" r="20" fill="var(--r-link-color)">
+    <animate
+      data-fragment-index="1" 
+      begin="indefinite" fill="freeze"
+      attributeName="r" to="100" dur="1.5s" />
+    <animate
+      data-fragment-index="-1" 
+      begin="indefinite" fill="freeze"
+      attributeName="r" to="20" dur="1s" />
+  </circle>
+Your browser does not support SVG.
+</svg>
+
+----
+
+### Animation triggers
+
+SMIL provides all kinds of triggers and timing.
+
+We add slide navigation triggers on top, but you can still use all the power of SMIL
+<!-- .element: class="fragment" data-fragment-index="1" -->
+
+<svg class="fragment" data-fragment-index="1" width="500" height="250">
+  <circle cx="125" cy="125" r="20" fill="var(--r-link-color)">
+    <animate id="pulse_1"
+      attributeName="r" values="20; 40; 20" dur="1.5s" begin="0s; move_2.end" repeatCount="3" />
+    <animate id="move_1"
+      attributeName="cx" to="375" dur="1.5s" begin="pulse_1.end" fill="freeze" />
+    <animate id="pulse_2"
+      attributeName="r" values="20; 40; 20" dur="1.5s" begin="move_1.end" repeatCount="3" />
+    <animate id="move_2"
+      attributeName="cx" to="125" dur="1.5s" begin="pulse_2.end" fill="freeze" />
+  </circle>
+Your browser does not support SVG.
+</svg>
 
 ---
 
