@@ -374,6 +374,30 @@ Try it with **&darr;** **&uarr;**
       begin="indefinite" fill="freeze"
       attributeName="r" to="20" dur="1s" />
   </circle>
+Your browser does not support SVG.
+</svg>
+
+----
+
+### Animation triggers
+
+SMIL provides all kinds of triggers and timing.
+
+We add slide navigation triggers on top, but you can still use all the power of SMIL
+<!-- .element: class="fragment" data-fragment-index="1" -->
+
+<svg class="fragment" data-fragment-index="1" width="500" height="250">
+  <circle cx="125" cy="125" r="20" fill="var(--r-link-color)">
+    <animate id="pulse_1"
+      attributeName="r" values="20; 40; 20" dur="1.5s" begin="0s; move_2.end" repeatCount="3" />
+    <animate id="move_1"
+      attributeName="cx" to="375" dur="1.5s" begin="pulse_1.end" fill="freeze" />
+    <animate id="pulse_2"
+      attributeName="r" values="20; 40; 20" dur="1.5s" begin="move_1.end" repeatCount="3" />
+    <animate id="move_2"
+      attributeName="cx" to="125" dur="1.5s" begin="pulse_2.end" fill="freeze" />
+  </circle>
+Your browser does not support SVG.
 </svg>
 
 ---
