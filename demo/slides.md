@@ -82,7 +82,7 @@ Your browser does not support SVG.
 
 ----
 
-<!-- .slide: data-transition="convex none" data-auto-animate -->
+<!-- .slide: data-transition="convex-in none-out" data-auto-animate -->
 
 ### Add SMIL animation
 
@@ -176,7 +176,7 @@ SVG can be included directly, or as an external file using `<object>`
 
 ----
 
-<!-- .slide: data-transition="convex none" data-auto-animate -->
+<!-- .slide: data-transition="convex-in none-out" data-auto-animate -->
 
 ### Add SMIL animation
 
@@ -216,7 +216,7 @@ Add a `class` to the animation
 
 ----
 
-<!-- .slide: data-transition="none convex" data-auto-animate -->
+<!-- .slide: data-transition="none-in convex-out" data-auto-animate -->
 
 ### Add SMIL animation
 
@@ -317,7 +317,7 @@ from the [GitHub repository](https://github.com/mlange-42/reveal-svg-smil)
 
 Or
 
-* Add [reveal-svg-smil](https://github.com/mlange-42/reveal-svg-smil) as sub-module to your project
+* Add [reveal-svg-smil](https://github.com/mlange-42/reveal-svg-smil) as git sub-module to your project
 
 ----
 
